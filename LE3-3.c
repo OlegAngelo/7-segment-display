@@ -96,7 +96,7 @@ void main()
         	delay(61); 
 
 		// uncomment below if we want to stop when we click btn/key
-       	/* if(myINTF == 0)
+		/* if(myINTF == 0)
 		{
 			while(myINTF != 0)
 			{ 
