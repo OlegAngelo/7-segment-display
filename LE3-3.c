@@ -21,7 +21,7 @@ void delay (int count)
 		if(myTMR0IF)
 		{
 			of_count++;
-			myTMR0IF = 0;
+			myTMR0IF = 0; // reset
 		}
 	}
 }
@@ -39,7 +39,7 @@ void interrupt ISR()
 	if (TMR0IF)
 	{
 		TMR0IF = 0;
-		myTMR0IF = 1;
+		myTMR0IF = 1; // indication that overflow happened
 	}
 	
 	GIE = 1;
@@ -60,9 +60,7 @@ void main ()
 	GIE = 1;
 	
 	while (1)
-	{
-		PORTC = counter;
-		
+	{	
 		if(myINTF == 0)
 		{
 			while(myINTF != 0)
@@ -72,15 +70,15 @@ void main ()
 		} 
 		else if (myINTF == 1 && counter == 0x09)
 		{	
-			delay (122);
+			delay (61);
 			counter = 0x00; // set counter back to 0 if current counter 
 		}
 		else
 		{	
-			delay (122);
+			delay (61);
 			counter++;
 		}
+		
+		PORTC = counter;
 	}
-	
-	PORTC = counter;
 }
