@@ -35,7 +35,7 @@ void interrupt ISR()
 
     	if (INTF) 
     	{
-       	INTF = 0; // reset flag manually
+       	INTF = 0; // reset interrupt flag manually
        	myINTF ^= 1; // xor
        	
         	keypadData = PORTD & 0x0F;
@@ -44,7 +44,7 @@ void interrupt ISR()
 
     	if (TMR0IF) // Timer overflow interrupt
     	{
-        	TMR0IF = 0; // reset flag manually
+        	TMR0IF = 0; // reset timer flag manually
         	myTMR0IF = 1; 
     	}
 
@@ -76,10 +76,11 @@ void processKeypad()
 
 void main()
 {
-    	TRISB0 = 1; 
-    	TRISD = 0xFF; 
-    	TRISC = 0x00; 
+    	TRISB0 = 1; // set to input for interrupt
+    	TRISD = 0xFF; // input all port d from keypad
+    	TRISC = 0x00; // output all port c to 7segment display
 
+	// setup from datasheet
     	OPTION_REG = 0xC4; 
     	INTE = 1;
     	INTF = 0; 
@@ -91,7 +92,7 @@ void main()
     	{
 	    	processKeypad();
 	    	
-       	PORTC = counter;
+	    	PORTC = counter;
         	delay(61); 
 
 		// uncomment below if we want to stop when we click btn/key
